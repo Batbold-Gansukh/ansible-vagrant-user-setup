@@ -1,0 +1,22 @@
+#vim:ft=ansible:
+
+# You should run with --ask-pass to login
+
+- hosts: all
+  sudo: yes
+  remote_user: vagrant
+  tasks:
+    - name: Install zsh 
+      apt: pkg=zsh state=present
+
+    - name: Add user batbold with admin group
+      user: name=batbold 
+            shell=/bin/zsh 
+            state=present
+            groups="sudo,admin" 
+
+    - name: Add ssh pub key
+      authorized_key: user=batbold key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}" state=present
+
+    - name: Add batbold to sudoers.d
+      lineinfile: "dest=/etc/sudoers.d/batbold line='batbold ALL=(ALL) NOPASSWD: ALL' state=present create=yes validate='visudo -cf %s'"
