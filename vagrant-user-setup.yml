@@ -7,11 +7,16 @@
   remote_user: vagrant
   tasks:
     - name: Install zsh 
-      apt: pkg=zsh state=present
+      apt: pkg=zsh state=present update_cache=yes
+
+    - name: Add fish ppa repository
+      apt_repository: repo='ppa:fish-shell/nightly-master' state=present update_cache=yes
+    - name: Install fish shell
+      apt: pkg=fish state=present
 
     - name: Add user batbold with admin group
       user: name=batbold 
-            shell=/bin/zsh 
+            shell=/usr/bin/fish 
             state=present
             groups="sudo,admin" 
 
