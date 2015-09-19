@@ -18,7 +18,7 @@
       user: name=batbold 
             shell=/usr/bin/fish 
             state=present
-            groups="sudo,admin" 
+            groups="sudo,admin,docker" 
 
     - name: Add ssh pub key
       authorized_key: user=batbold key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}" state=present
