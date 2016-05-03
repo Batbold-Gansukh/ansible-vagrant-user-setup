@@ -3,7 +3,8 @@
 # You should run with --ask-pass to login
 
 - hosts: all
-  sudo: yes
+  become: yes
+  become_method: sudo
   remote_user: vagrant
   tasks:
     - name: Install zsh 
@@ -16,6 +17,9 @@
 
     - name: Create docker group
       group: name=docker state=present
+
+    - name: Create admin group if it doesn't exist already
+      group: name=admin state=present
 
     - name: Add user batbold with admin group
       user: name=batbold 
